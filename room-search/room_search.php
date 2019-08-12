@@ -1,11 +1,11 @@
 <?php
 /*
 	Plugin Name: Room Search
-	Plugin URI: http://terapixl.com/wordpress
+	Plugin URI: http://sundriedoctopus.com/
 	Description: Room Search - Houses the Room Booking Search Facility
-	Author: Terapixl
+	Author: Marcus A - Sun-dried Octopus
 	Version: 1.0.0
-	Author URI: http://terapixl.com/
+	Author URI: http://sundriedoctopus.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
