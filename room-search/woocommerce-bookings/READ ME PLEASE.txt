@@ -1,0 +1,1 @@
+This WC BOOKING file contains the modded files to make WC BOOKING work with the plugin. If an accidental update happens REPLACE CORRESPONDING WC BOOKING PLUGIN FILES with these files (DO NOT JUST COPY FOLDERS, NAVIGATE AND COPY INDIVIDUAL FILES).
