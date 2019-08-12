@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-
 // Various Includes
 add_action( 'wp_enqueue_scripts', 'ajax_enqueue_scripts' );
 function ajax_enqueue_scripts() {
@@ -33,7 +32,6 @@ include('search-form.php');
 include('search-results.php');
 include('holding-calendar.php');
 include('admin_cal_summary.php');
-
 
 // Sets Prices For Entire Rooms By Persons Multiplier
 add_action( 'woocommerce_before_calculate_totals', 'add_custom_price_room' );
@@ -61,14 +59,11 @@ function add_custom_price_room( $cart_object ) {
 			    	}
 		    	}
 	    	}
-	    	
-	    	
-	    	
+
 	    	// RETURNING GUEST
 	    	$curprice = $product['data']->get_price();
 	    	$numberOfGuests = $product['booking']['_num_discount'];
 	    	$discount = 0;
-	    	
 	    	
 	    	if ( has_term( 'juicy-oasis', 'product_cat', $product_id ) ) {
 		    	// JUICY OASIS RETURNING GUEST
@@ -109,55 +104,12 @@ function add_custom_price_room( $cart_object ) {
 			    	$deposit = WC()->cart->deposit_info['deposit_amount'];
 		            $second_payment = WC()->cart->deposit_info['second_payment'];
 		            $original_total = WC()->cart->total;
-		            // $deposit_breakdown = WC()->cart->deposit_info['deposit_breakdown'];
-						
-					// $cart_object->cart_contents_total = $finalprice;
-					// $cart_object->set_total( $finalprice );
-					
-					/*
-		            $order->set_total($deposit);
-		            $order->add_meta_data('_wc_deposits_order_has_deposit', 'yes', true);
-		            $order->add_meta_data('_wc_deposits_deposit_paid', 'no', true);
-		            $order->add_meta_data('_wc_deposits_deposit_amount', $deposit, true);
-		            $order->add_meta_data('_wc_deposits_second_payment', $second_payment, true);
-		            $order->add_meta_data('_wc_deposits_original_total', $original_total, true);
-			    	*/
 		    	}
-			}
+		}
 	    		    
         }
     }   
 }	
-
-
-
-
-
-
-/*
-
-add_filter( 'woocommerce_calculated_total', 'custom_calculated_total', 60, 2 );
-function custom_calculated_total( $total, $cart ){
-	global $woocommerce;
-	$cart_total = $app= (float) preg_replace( '/[^0-9\.]/', '', $woocommerce->cart->get_cart_total()  );
-	$deposit_amount = get_option('wc_deposits_checkout_mode_deposit_amount');
-
-                if (WC()->cart->discount_cart > 0) {
-                    $deposit_amount = (($cart_total - WC()->cart->discount_cart) / 100) * $deposit_amount;
-                } else {
-                    $deposit_amount = ($cart_total / 100) * $deposit_amount;
-                }
-	    	
-	   echo $cart_total . ' - ' . $deposit_amount; 
-    return round( $total - $deposit_amount, $cart->dp );
-}
-
-*/
-
-
-
-
-
 
 // Store custom field label and value in cart item data
 add_filter( 'woocommerce_add_cart_item_data', 'save_my_custom_checkout_field', 10, 2 );
@@ -190,7 +142,6 @@ function save_my_custom_checkout_field( $cart_item_data, $product_id ) {
 	return $cart_item_data;	
 }
 
-
 // Save item custom fields label and value as order item meta data
 add_action('woocommerce_add_order_item_meta','save_in_order_item_meta', 10, 3 );
 function save_in_order_item_meta( $item_id, $values, $cart_item_key ) {
@@ -205,7 +156,6 @@ function save_in_order_item_meta( $item_id, $values, $cart_item_key ) {
     }
 }
 
-
 // Change Order Notes Placeholder Text - WooCommerce
 add_filter( 'woocommerce_checkout_fields', 'additional_woocommerce_checkout_fields' );
 function additional_woocommerce_checkout_fields( $fields ) {
@@ -213,14 +163,12 @@ function additional_woocommerce_checkout_fields( $fields ) {
 	return $fields;
 } 
 
-
 // Empty cart first: new item will replace previous
 add_filter( 'woocommerce_add_to_cart_validation', 'empty_woocommerce_checkout', 99, 2 );
 function empty_woocommerce_checkout( $passed, $added_product_id ) {
 	// wc_empty_cart();
 	return $passed;
 }
-
 
 // Add Cart Checks & 'Back To Booking' Button
 add_action( 'woocommerce_cart_contents', 'roomCheck', 10, 3);
@@ -233,7 +181,7 @@ function roomCheck($cart_object) {
 		}
 	}
     
-    if($roomCount > 1) {
+   	 if($roomCount > 1) {
 	    $roomCountScript = '<script>jQuery(window).load(function(){';
 		$roomCountScript .= 'alert("You have added '.$roomCount.' rooms to your booking, are you sure this is what you need?");';
 	    $roomCountScript .= '});</script>';
@@ -245,18 +193,13 @@ function roomCheck($cart_object) {
 				WC()->cart->remove_cart_item($cart_item_key);
 			}
 		}
-    } 
+    	} 
     
-    if ($roomCount >= 1) {
+   	if ($roomCount >= 1) {
 		echo '<div class="backtobookingbtn"><a href="/retreat-booking"><i class="icon-arrow-left"></i>Back to Room Booking</a></div>';  
 	}
     
 }
-
-
-
-
-
 
 // NEW ADMIN NOTES
 add_action( 'woocommerce_after_order_notes', 'admin_notes_field' );
@@ -304,12 +247,7 @@ function admin_notes_save_extra_details( $post_id, $post ){
 }
 
 
-
-
-
 // New Multi Checkbox field for woocommerce backend
-// 'https://stackoverflow.com/questions/50799927/multi-checkbox-fields-in-woocommerce-backend'
-
 function woocommerce_wp_multi_checkbox( $field ) {
     global $thepostid, $post;
 
@@ -351,7 +289,6 @@ function woocommerce_wp_multi_checkbox( $field ) {
 
     echo '</fieldset>';
 }
-
 
 // Add custom multi-checkbox field for product general option settings
 add_action( 'woocommerce_product_options_general_product_data', 'add_custom_settings_fields', 20 );
@@ -400,7 +337,6 @@ function add_custom_settings_fields() {
     echo '<style> ._custom_room_field ul { width: auto !important; } ._custom_room_field li { padding-bottom: 2px !important; }</style>';
 }
 
-
 // Save custom multi-checkbox fields to database when submitted in Backend (for all other product types)
 add_action( 'woocommerce_process_product_meta', 'save_product_options_custom_fields', 30, 1 );
 function save_product_options_custom_fields( $post_id ){
@@ -416,30 +352,6 @@ function save_product_options_custom_fields( $post_id ){
         update_post_meta( $post_id, '_custom_room', $sanitize_data );
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ADD ADDITION GUEST CUSTOM FIELDS TO CHECKOUT =============================================
 add_action( 'woocommerce_before_order_notes', 'room_guests_custom_checkout_field' );
@@ -592,5 +504,4 @@ function room_guest_email_order_meta_fields( $fields, $sent_to_admin, $order ) {
 	}    
 	return $fields;
 }
-
 ?>
